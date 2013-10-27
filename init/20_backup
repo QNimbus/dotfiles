@@ -1,0 +1,40 @@
+#
+# Create backup of files
+#
+
+declare -a _FILES
+
+_BACKUP_DIR="${_TARGET_DIR}/backup/$( date +%Y-%m-%d-%H%M )"
+_SUBJECT="Creating backup directory (${_BACKUP_DIR})"
+
+#
+# Files and directories to backup
+#
+for file in $_TARGET_DIR/copy/*
+do
+	_FILES+=( ${_HOME_DIR}/$(basename "$file") )
+done
+
+#
+# Add extra files to backup, for example.....
+#
+#_FILES+=( ${_TARGET_DIR}/init/* )
+
+if [[ ! -d $_BACKUP_DIR ]]; then
+	mkdir -p "$_BACKUP_DIR"	&& e_success "${_SUBJECT}: Success" || (e_error "${_SUBJECT}: Failed"; exit 1)
+else
+	e_successy "Backup dir $_BACKUP_DIR already exists, skipping backup"
+	return 0
+fi
+
+for file in ${_FILES[@]}
+do
+	if [[ -f "$file" && -r "$file" ]]; then
+		cp -a "$file" ${_BACKUP_DIR}/$( basename "$file") && e_success "Backup successful ($file)"
+	fi
+done
+
+#
+# Returns success status
+#
+return 0

@@ -1,0 +1,11 @@
+#
+# At this time the script has only been configured & tested for Ubuntu. Abort if not Ubuntu.
+#
+[[ "$(cat /etc/issue 2> /dev/null)" =~ Ubuntu ]] || (e_error "This script only works on Ubuntu"; exit 1)
+
+e_success "This is an Ubuntu installation"
+
+#
+# Returns success status
+#
+return 0

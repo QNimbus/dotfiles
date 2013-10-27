@@ -1,0 +1,8 @@
+#
+# Make sure our script is run as root
+#
+[[ $EUID -ne 0 ]] && (e_error "This script must be run as root"; exit 1)
+
+e_success "This script is being run as root"
+
+return 0

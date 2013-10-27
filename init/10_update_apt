@@ -1,0 +1,14 @@
+#
+# Update APT package manager
+#
+
+_SUBJECT="Updating apt package manager"
+
+if ! skip "$_SUBJECT";  then
+	sudo apt-get -qq update && sudo apt-get -qq dist-upgrade && e_success "${_SUBJECT}: Success" || (e_error "${_SUBJECT}: Failed"; exit 1)
+fi
+
+#
+# Returns success status
+#
+return 0
