@@ -1,0 +1,22 @@
+#
+# Install apps
+#
+
+_SUBJECT="Installing apps"
+_APPS=('fortune-mod' 'fortunes')
+
+for app in "${_APPS[@]}"
+do
+	dpkg-query -Wf'${db:Status-abbrev}' "$app" 2>/dev/null | grep -q '^i'
+	if [[ $? -ne 0 ]]; then
+		(apt-get install -qq "$app" > /dev/null && e_success "Installed package $app") || (e_error "Could not install package ($app)"; return 1)
+	else
+		e_message "Already installed ($app)"
+	fi
+done
+
+#
+# Returns success status
+#
+return 0
+
